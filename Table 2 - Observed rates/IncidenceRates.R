@@ -50,7 +50,7 @@ SummaryGEEGLM_v2 <- function(fit, alpha=.05, dig=2, p.dig=4){
 #### 2. READ DATA ############################################################
 ####
 
-Data = readRDS(file = "Data/LineList_InfectedByUnit.rds")
+Data = readRDS(file = "Data/InfectedByShiftByUnit.rds")
 
 colnames(Data) = c("Hospital","Unit","Days","Infected")
 
