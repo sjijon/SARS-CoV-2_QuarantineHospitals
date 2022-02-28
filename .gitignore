@@ -39,4 +39,8 @@ vignettes/*.pdf
 .Renviron
 
 # Other
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> 3efac41fd8657e0c3682967dca72ec751750fe61
