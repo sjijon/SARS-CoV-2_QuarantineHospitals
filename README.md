@@ -7,4 +7,5 @@ Jijón, S., Al Shafie, A., Hassan, E., EMEA-MESuRS working group on nosocomial S
 
 #### Acknowledgments
 This study was funded by INSERM-ANRS (France Recherche Nord and Sud Sida-HIV Hépatites, grant number ANRS-COV-19).
+
 The authors thank all the dedicated HCWs who contributed to this study. 
