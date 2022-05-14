@@ -26,7 +26,8 @@ library(lubridate)
 ## Colors
 ColorOne = 	"#00648C" # Blue
 ColorTwo = 	"#A0A0A0" # Gray
-ColorThree = "#FFAA00" # Yellow
+# ColorThree = "#FFAA00" # Yellow
+ColorThree = "#A01E18" # Red
 
 ## Save results?
 SAVE_RES = "YES";
@@ -218,6 +219,7 @@ INF = rbind(Inf_Hosp1,
 
 
 ## Plot
+datebreaks= c("2020-W11","2020-W13","2020-W15","2020-W17","2020-W19","2020-W21","2020-W23","2020-W25","2020-W27","2020-W29")
 
 p1 = EpiCurve(filter(INF,Hospital=="Hosp1"),
              date ="Date",
@@ -228,7 +230,8 @@ p1 = EpiCurve(filter(INF,Hospital=="Hosp1"),
              freq="Obs",
              ylabel = "Per-week number of infections",
              title = "Hosp1") +
-  ylim(0,16.5) +
+    scale_x_discrete(breaks = datebreaks) +
+    ylim(0,16.5) +
 theme(legend.position = "none") +
     labs(
         earliest_date = format(min(INF$Date, na.rm=T), format = '%W'),
@@ -249,6 +252,7 @@ p2 =  EpiCurve(filter(INF,Hospital=="Hosp2"),
                freq="Obs",
                # ylabel = "Per-shift number of infections",
                title = "Hosp2") +
+    scale_x_discrete(breaks = datebreaks) +
   ylim(0,16.5) + 
   theme(legend.position = "none") +
   annotate("text",
@@ -266,6 +270,7 @@ p3 = EpiCurve(filter(INF,Hospital=="Hosp3"),
               freq="Obs",
               # ylabel = "Per-shift number of infections",
               title = "Hosp3") +
+    scale_x_discrete(breaks = datebreaks) +
     ylim(0,16.5) +
     labs(fill="Hospital unit") +
     annotate("text", 
