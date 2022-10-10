@@ -26,8 +26,8 @@ library(lubridate)
 ## Colors
 ColorOne = 	"#00648C" # Blue
 ColorTwo = 	"#A0A0A0" # Gray
-# ColorThree = "#FFAA00" # Yellow
-ColorThree = "#A01E18" # Red
+ColorThree = "#FFAA00" # Yellow
+# ColorThree = "#A01E18" # Red
 
 ## Save results?
 SAVE_RES = "YES";
@@ -217,6 +217,9 @@ INF = rbind(Inf_Hosp1,
             Aux_DatesHosp32) %>%
   arrange(Date)
 
+# Replace labels
+INF = INF %>%
+    mutate(Unit = str_replace(Unit, "NoICU", "Non-ICU"))
 
 ## Plot
 datebreaks= c("2020-W11","2020-W13","2020-W15","2020-W17","2020-W19","2020-W21","2020-W23","2020-W25","2020-W27","2020-W29")
@@ -228,19 +231,21 @@ p1 = EpiCurve(filter(INF,Hospital=="Hosp1"),
              cutvar = "Unit",
              colors = c(ColorThree,ColorOne,ColorTwo),
              freq="Obs",
-             ylabel = "Per-week number of infections",
+             # ylabel = "Per-shift number of infections",
              title = "Hosp1") +
     scale_x_discrete(breaks = datebreaks) +
-    ylim(0,16.5) +
-theme(legend.position = "none") +
+    scale_y_continuous(limits = c(0,18), 
+                       expand = c(0, 0)) +
+    theme(legend.position = "none") +
     labs(
         earliest_date = format(min(INF$Date, na.rm=T), format = '%W'),
         latest_date = format(max(INF$Date, na.rm=T), format = '%W')
     ) +
-  annotate("text",
+    annotate("text",
            x = seq(1,19,2),
-           y = Infected_Hosp1[c(1,seq(3,10,1),2)] + 0.5,
-           size = 2,
+           y = Infected_Hosp1[c(1,seq(3,10,1),2)] + 1.2,
+           size = 3,
+           angle = 90,
            label = format(PerShiftAttackRate_Hosp1[c(1,seq(3,10,1),2)],digits=1))
 
 p2 =  EpiCurve(filter(INF,Hospital=="Hosp2"),
@@ -253,12 +258,14 @@ p2 =  EpiCurve(filter(INF,Hospital=="Hosp2"),
                # ylabel = "Per-shift number of infections",
                title = "Hosp2") +
     scale_x_discrete(breaks = datebreaks) +
-  ylim(0,16.5) + 
-  theme(legend.position = "none") +
-  annotate("text",
+    scale_y_continuous(limits = c(0,18), 
+                       expand = c(0, 0)) +
+    theme(legend.position = "none") +
+    annotate("text",
            x = seq(1,2*NumShifts-1,2) + 3,
-           y = Infected_Hosp2 + 0.5,
-           size = 2,
+           y = Infected_Hosp2 + 1.2,
+           size = 3,
+           angle = 90,
            label = format(PerShiftAttackRate_Hosp2,digits=1))
 
 p3 = EpiCurve(filter(INF,Hospital=="Hosp3"),
@@ -271,12 +278,16 @@ p3 = EpiCurve(filter(INF,Hospital=="Hosp3"),
               # ylabel = "Per-shift number of infections",
               title = "Hosp3") +
     scale_x_discrete(breaks = datebreaks) +
-    ylim(0,16.5) +
+    scale_y_continuous(limits = c(0,18), 
+                       expand = c(0, 0)) +
     labs(fill="Hospital unit") +
+    # scale_fill_discrete(name = "Hospital unit", 
+                        # labels = c("A", "B")) +
     annotate("text", 
            x = seq(1,5,1) + 13 ,
-           y = Infected_Hosp3 + 0.5,
-           size = 2,
+           y = Infected_Hosp3 + 1.2,
+           size = 3,
+           angle = 90,
            label = format(PerShiftAttackRate_Hosp3,digits=1))
 
 # p1
@@ -304,6 +315,9 @@ p
 
 ggsave("Figure 1 - Epidemic curves/Output/EpiCurves.png",
        plot=p, height=8, width=28, units=c("cm"), dpi=600)
+
+ggsave("Figure 1 - Epidemic curves/Output/EpiCurves.pdf",
+       plot=p, height=8, width=28, units=c("cm"), dpi=800)
 
 ## 2. Outbreaks table ###############################
 
